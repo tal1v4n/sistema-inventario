@@ -14,7 +14,7 @@ class Producto:
         print(f"Nombre     : {self.nombre}")
         print(f"Precio     : ${self.precio:,.2f}")
         print(f"Existencia : {self.existencia} unidades")
-        print("------------------------------------")
+        print("xd")
 
 
 # Ejemplo de uso
