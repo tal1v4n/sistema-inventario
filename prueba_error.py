@@ -1,3 +1,3 @@
 
-def mostrar_inventario()
+def mostrar_inventario():
     print("Sistema de inventario")
