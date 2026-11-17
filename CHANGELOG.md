@@ -1,5 +1,13 @@
 # Historial de versiones
 
+## v1.1.0
+
+- Nuevo menú principal (`src/main.py`) para registrar, listar y buscar productos.
+- Validación de código duplicado, precio y existencia.
+- Pruebas del menú (CP08 a CP12).
+- El paquete ya no incluye la carpeta `__pycache__`.
+- Scripts y workflows de despliegue (`deploy/`, `deploy.yml`, `rollback.yml`).
+
 ## v1.0.2
 
 - Corrección del error en la visualización del precio detectado durante las pruebas.

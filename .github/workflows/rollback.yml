@@ -1,0 +1,46 @@
+name: Recuperar versión anterior
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Versión a recuperar (vacío = la anterior a la activa)"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    env:
+      TS_AUTHKEY: ${{ secrets.TS_AUTHKEY }}
+
+    steps:
+      - name: Validar el nombre de la versión
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          if [ -n "$VERSION" ] && [[ ! "$VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "La versión debe tener el formato vX.Y.Z"
+            exit 1
+          fi
+
+      - name: Conectar a la red privada (Tailscale)
+        if: env.TS_AUTHKEY != ''
+        uses: tailscale/github-action@v4
+        with:
+          authkey: ${{ secrets.TS_AUTHKEY }}
+
+      - name: Restaurar desde el paquete conservado
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          port: ${{ secrets.DEPLOY_PORT || 22 }}
+          script: |
+            set -e
+            bash ~/sistema-inventario/scripts/revertir.sh ${{ inputs.version }}
+            bash ~/sistema-inventario/scripts/estado.sh

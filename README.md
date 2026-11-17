@@ -1,6 +1,16 @@
 # sistema-inventario
 Sistema web para la gestión de inventarios de un comercio electrónico.
 
+## Ejecución
+
+```bash
+python3 src/main.py
+```
+
+## Despliegue (fase DEPLOY)
+
+El procedimiento completo está en [`docs/DEPLOY.md`](docs/DEPLOY.md). El despliegue se hace con el workflow **Despliegue del Sistema de Inventario** (`.github/workflows/deploy.yml`) y la recuperación con **Recuperar versión anterior** (`.github/workflows/rollback.yml`).
+
 ## Pruebas (fase TEST)
 
 Las pruebas de la clase `Producto` están en `tests/test_producto.py` y usan `unittest`, que viene incluido con Python.
