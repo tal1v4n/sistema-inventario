@@ -1,0 +1,36 @@
+name: Despliegue del Sistema de Inventario
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      RELEASE_TAG: v1.0.2
+      RELEASE_ASSET: sistema-inventario-v1.0.2.zip
+
+    steps:
+      - name: Descargar el artefacto publicado
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download "$RELEASE_TAG" \
+            --repo "$GITHUB_REPOSITORY" \
+            --pattern "$RELEASE_ASSET"
+
+      - name: Extraer el paquete en el runner
+        run: |
+          unzip -t "$RELEASE_ASSET"
+          mkdir -p despliegue
+          unzip "$RELEASE_ASSET" -d despliegue
+
+      - name: Verificar la ejecución
+        working-directory: despliegue
+        run: |
+          python3 --version
+          python3 src/producto.py
+          python3 src/busqueda.py
