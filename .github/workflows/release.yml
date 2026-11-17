@@ -26,7 +26,7 @@ jobs:
 
       - name: Crear paquete
         run: |
-          zip -r sistema-inventario-${GITHUB_REF_NAME}.zip src/
+          zip -r sistema-inventario-${GITHUB_REF_NAME}.zip src/ -x "*__pycache__*"
 
       - name: Publicar version
         uses: softprops/action-gh-release@v2
